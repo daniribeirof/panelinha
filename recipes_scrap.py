@@ -19,7 +19,7 @@ for e in recipes:
     if list_name == 'Faça sua busca aqui':
         category = e.get('data-item-name').encode('latin1').decode('utf-8')
         e_tree = etree.HTML(html.tostring(e))
-        url=e_tree.xpath('//a[@class="w100 f fcr tDn"]/@href')
+        url = e_tree.xpath('//a[@class="w100 f fcr tDn"]/@href')
         
         categories[category]=base_url+url[0]
 
@@ -31,15 +31,14 @@ with sync_playwright() as pw:
     context = browser.new_context(viewport={"width": 1920, "height": 1080})
     page = context.new_page()
 
-    # go to url
+    #go to url
     page.goto("https://panelinha.com.br/busca?refinementList%5Bcategories%5D%5B0%5D=Aperitivos&menu%5Bpage_type%5D=Receitas")
 
     page.wait_for_selector('//span[@class="ais-Stats-text"]')
 
-
     page_html = page.content()
     tree = etree.HTML(page_html)
 
-    recipes_aperitivos = tree.xpath('//a[@class="w100 f fcr tDn"]/@href') 
+    recipes_aperitivos = tree.xpath('//a[@class="w100 f fcr tDn"]/@href')
 
     print(recipes_aperitivos)
